@@ -1,0 +1,146 @@
+body {
+    border: 2px solid #2a4c39;
+    border-radius: 0.5em;
+    margin: 0.5px;
+    font-family: Arial, sans-serif;
+    background-color: #fefaf2;
+    color: #2a4c39;
+}
+header a{
+    color:#2a4c39;
+    margin-right: 150px;
+}
+.nav {
+    display: flex;
+    height: 120px;
+    width: 100%;
+    border-bottom: 2px dotted #2a4c39;
+    top:10%;
+    
+}
+.menu {
+    display: flex;
+    padding-left: 130px;
+    text-align: center;
+    padding-top: 35px;
+
+}
+
+.logo {
+    margin-top: -30px;
+    margin-left: -10px;
+}
+svg {
+    width: 24;
+    height: 24;
+    fill: currentcolor;
+}
+
+.menu li a{
+    text-decoration: none;
+    font-size: .870rem;
+}
+
+.give {
+    background-color: #2a4c39;
+    height: 52px;
+    border-radius: 0.33em 0.33em 0em 0em;
+    display:flex;
+}
+
+.he {
+    top: 4%;
+    padding-top: 0px;
+    padding-right: 24px;
+    padding-bottom: 0px;
+    padding-left: 39%;
+    color:#fefaf2;
+    display: flex;
+    font-size: 14px;
+    font-family: 'Circe web';
+}
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+h1 {
+
+    padding-right:40px ;
+
+}
+ul {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+* {box-sizing: border-box;}
+form {
+  position: relative;
+  width: 300px;
+  margin-top: 20px;
+}
+input, button {
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  background-color: #fefaf2;
+}
+input {
+  border: 0.5px solid #2a4c39;
+  width: 100%;
+  height: 42px;
+  background-color: #fefaf2;
+  padding-left: 15px;
+}
+button {
+  height: 26px;
+  width: 26px;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
+  background-color: #fefaf2;
+}
+button:before {
+  content: "\f002";
+  font-family: FontAwesome;
+  font-size: 15px;
+  color: rgb(162, 155, 155);
+}
+
+.first {
+    display: flex;
+    justify-content: space-around;
+    margin-left: -30px;
+}
+.picture{
+    margin-left: 110px;
+    text-align: center;
+}
+.picture img {
+    width: 70%;
+    height: 70%;
+    margin-bottom: -20px;
+}
+.picture li {
+    list-style-type: none;
+    margin-bottom: 50px;
+    margin-right: 20px;
+    width: 270px;
+    height: auto;
+    overflow-wrap: break-word;
+    border: 1px solid #2a4c39;
+
+}
+.text {
+    border-top: 1px solid #2a4c39;
+    padding: .3em
+}
+.q {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
