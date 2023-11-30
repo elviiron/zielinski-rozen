@@ -1,9 +1,9 @@
 # SCRAPING
 
-ABOUT
+#ABOUT
 Scraping sait https://zielinskiandrozen.ru/
 
-RUNNING PROJECT
+#RUNNING PROJECT
 git clone https://github.com/elviiron/zielinski_p.git
 cd zielinski_p
 ./build.sh
