@@ -18,7 +18,7 @@ The website works at the URL http://127.0.0.1:5000/
 
 To find something, you need to enter your query in the search field "Искать здесь...
 
-Then press "Enter" or click the button "🔍"
+Then press "Enter" or click the button "🔍" and you will get a sorted list of necessary products
 
 ![Снимок экрана (9)](https://github.com/elviiron/zielinski_p/assets/150541766/2662a9fe-f08b-4ae0-a085-9a7ad106dda4)
 
