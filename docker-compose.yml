@@ -12,6 +12,5 @@ services:
   db:
     image:  keinos/sqlite3:latest
     volumes:
-      - ./product_parf.db:/product_parf.db
-  
-      
+      - ./product_last_my_first.db:/product_last_my_first.db
+

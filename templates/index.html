@@ -15,11 +15,6 @@
 <body>
     <header id = "header" class="header">
         <div class="container">
-            <div class="give">
-                <div class="he">
-                    <p>Подарок при покупке &#8594</p>
-                </div>
-            </div>
             <div class="nav">
                 <ul class="menu">
                     <div class="one">
@@ -68,19 +63,31 @@
     <br>
     <div class="first">
         <h1>Список товаров</h1>
-    <form action="http://127.0.0.1:5000/search" method="get">
-        <input type="text" id="searchInput" name="q" placeholder="Искать здесь...">
-        <button type="submit"></button>
-      </form>
-    </div>
+        <form action="http://127.0.0.1:5000/search" method="get">
+        
+               <input type="text" id="searchInput" name="q" placeholder="Искать здесь...">
+               <div class="op"><button type="submit"></button></div>
+           
+        </form> 
+        <br>
+            <form action="http://127.0.0.1:5000/search" method="get">
+                <input type="hidden" name="q" value="{{ request.args.get('q') }}">
+                <button type="submit" name="sort" value="asc" id="sort-btn"><p style="width:60px; height:60px; font-size:40px;color:grey;margin-top: -10px;margin-left: -240px;">&#8675;</p></button>
+            </form>
+            <form action="http://127.0.0.1:5000/search" method="get">
+                <input type="hidden" name="q" value="{{ request.args.get('q') }}">
+                <button type="submit" name="sort" value="desc" id="sort-btn"><p style="width:60px; height:60px; font-size:40px;color:grey;margin-top: -10px;margin-left: -580px;">&#8673;</p></button>
+            </form>
+        </div>
         <br>
         <div class="picture">
             <ul>
                 {% for item in products %}
-                    <li><img src="{{ item['img']}}" ><p class="text">{{ item['title'] }}<p class="q"> {{ item['price'] }}</p> <br></p></li>
+                    <li><img src="{{ item['img'] }}" ><p class="text">{{ item['title'] }}<p class="q"> {{ item['price'] }}</p> <br></p></li>
                     <br><br>
                 {% endfor %}
             </ul>
         </div>
+
 </body>
 </html>

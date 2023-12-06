@@ -16,7 +16,7 @@ header a{
     width: 100%;
     border-bottom: 2px dotted #2a4c39;
     top:10%;
-    
+
 }
 .menu {
     display: flex;
@@ -105,18 +105,21 @@ button {
   cursor: pointer;
   background-color: #fefaf2;
 }
-button:before {
+ .op button[type=submit]:before {
   content: "\f002";
   font-family: FontAwesome;
   font-size: 15px;
   color: rgb(162, 155, 155);
 }
-
+ .op {
+    margin-top: -20px;
+ }
 .first {
     display: flex;
     justify-content: space-around;
-    margin-left: -30px;
+    margin-left: 250px;
 }
+
 .picture{
     margin-left: 110px;
     text-align: center;
