@@ -1,17 +1,11 @@
-<<<<<<< HEAD
 from flask import Flask, render_template, jsonify, request
-=======
-from flask import Flask, render_template, jsonify, request, redirect, url_for
->>>>>>> ef755944522762c35f85c24d8fe79b82b1aa59f9
 import sqlite3
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
 
-
 app = Flask(__name__)
 
-<<<<<<< HEAD
 
 def create_database():
     connection = sqlite3.connect('product_last_my_first.db')
@@ -118,35 +112,11 @@ def index():
 
     return render_template('index.html', search_history=search_history)
 
-=======
-@app.route('/', methods=['GET'])
-def index():
-    return render_template('index.html')
-
-def get_products(search_query, sort):
-    conn = sqlite3.connect('product_last_my_first.db')
-    conn.row_factory = sqlite3.Row
-    query = """
-            SELECT * FROM product 
-            WHERE title LIKE ? COLLATE utf8_bin
-            {}
-             """.format("ORDER BY CAST(REPLACE(price, ' ₽', '') AS REAL) ASC" if sort=='asc' else "ORDER BY CAST(REPLACE(price, ' ₽', '') AS REAL) DESC" if sort=='desc' else "")
-
-    cursor = conn.execute(query, ('%' + search_query.capitalize() + '%',))
-
-    products = cursor.fetchall()
-    conn.close()
-    if products:
-        return render_template('index.html', products=products)
-    else:
-        return 'TRY AGAIN, SUNNY!'
->>>>>>> ef755944522762c35f85c24d8fe79b82b1aa59f9
 
 @app.route('/search', methods=['GET'])
 def search_products():
     search_query = request.args.get('q')
     sort = request.args.get('sort')
-<<<<<<< HEAD
     
     if search_query:
         try:
@@ -169,18 +139,8 @@ def search_products():
             print('Error:', excep)
         
     return render_template('index.html')
-=======
->>>>>>> ef755944522762c35f85c24d8fe79b82b1aa59f9
 
-    if search_query:
-        try:
-            return get_products(search_query, sort)
-        except Exception:
-            return jsonify({'error':'Something went wrong'})
-    else:
-        return jsonify([])
 
 if __name__ == '__main__':
     create_database()
     app.run(host="0.0.0.0", debug=True)
-    
