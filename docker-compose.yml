@@ -11,6 +11,10 @@ services:
 
   db:
     image:  keinos/sqlite3:latest
+    command: touch /product_last_my_first.db
     volumes:
-      - ./product_last_my_first.db:/product_last_my_first.db
+      - db_data:/product_last_my_first.db
+
+volumes:
+  db_data:
 
