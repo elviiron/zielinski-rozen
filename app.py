@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import sqlite3
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 
 app = Flask(__name__)
@@ -57,7 +58,12 @@ def get_product_by_query(search_query, all_goods, found_goods):
 
 def parse_website(search_query):
     all_goods = []
-    driver = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    driver = webdriver.Chrome(options=chrome_options)
     driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}')
     driver.implicitly_wait(10)
     html = driver.execute_script("return document.body.innerHTML")
@@ -69,7 +75,7 @@ def parse_website(search_query):
 
     if number > 60 and number < 120:
         for i in range(0, 61, 60):
-            driver = webdriver.Chrome()
+            driver = webdriver.Chrome(options=chrome_options)
             driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}&offset={i}')
             driver.implicitly_wait(10)
             html = driver.execute_script("return document.body.innerHTML")
@@ -80,7 +86,7 @@ def parse_website(search_query):
 
     elif number > 120:
         for i in range(0, 121, 60):
-            driver = webdriver.Chrome()
+            driver = webdriver.Chrome(options=chrome_options)
             driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}&offset={i}')
             driver.implicitly_wait(10)
             html = driver.execute_script("return document.body.innerHTML")
@@ -90,7 +96,7 @@ def parse_website(search_query):
             all_goods = get_product_by_query(search_query, all_goods, found_goods)
 
     else:
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(options=chrome_options)
         driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}')
         driver.implicitly_wait(10)
         html = driver.execute_script("return document.body.innerHTML")
