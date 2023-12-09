@@ -6,8 +6,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN /bin/sh -c python parser.py
-
 EXPOSE 5000/tcp
 
 CMD ["python", "app.py"]
