@@ -126,7 +126,7 @@ def search_products():
     
     if search_query:
         try:
-            conn = sqlite3.connect('product_last_my_first.db')
+            conn = sqlite3.connect('/app/database/product_last_my_first.db')
             conn.row_factory = sqlite3.Row
             cursor = conn.execute('SELECT products FROM search_history WHERE search_query = ?', (search_query,))
             products = cursor.fetchone()
