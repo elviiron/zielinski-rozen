@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 
-def get_product_by_query(search_query, all_goods, found_goods):
+def get_product(search_query, all_goods, found_goods):
     for i in found_goods:
         image = i.find('div', {"class": 'grid-product__image-wrap'})
         img = image.find('img').get('src')
@@ -39,7 +39,7 @@ def parse_website(search_query):
             driver.close()
             bsObj = BeautifulSoup(html, 'html.parser')
             found_goods = bsObj.find_all('div', {'class': "grid-product__wrap-inner"})
-            all_goods = get_product_by_query(search_query, all_goods, found_goods)
+            all_goods = get_product(search_query, all_goods, found_goods)
 
     elif number > 120:
         for i in range(0, 121, 60):
@@ -50,7 +50,7 @@ def parse_website(search_query):
             driver.close()
             bsObj = BeautifulSoup(html, 'html.parser')
             found_goods = bsObj.find_all('div', {'class': "grid-product__wrap-inner"})
-            all_goods = get_product_by_query(search_query, all_goods, found_goods)
+            all_goods = get_product(search_query, all_goods, found_goods)
 
     else:
         driver = webdriver.Chrome(options=chrome_options)
@@ -60,6 +60,6 @@ def parse_website(search_query):
         driver.close()
         bsObj = BeautifulSoup(html, 'html.parser')
         found_goods = bsObj.find_all('div', {'class': "grid-product__wrap-inner"})
-        all_goods = get_product_by_query(search_query, all_goods, found_goods)
+        all_goods = get_product(search_query, all_goods, found_goods)
     
     return all_goods
