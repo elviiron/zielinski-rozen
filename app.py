@@ -1,111 +1,10 @@
 from flask import Flask, render_template, jsonify, request
 import sqlite3
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from database import create_database, insert_into_database, insert_search_query, get_products_by_query
+from parser import parse_website
 
 
 app = Flask(__name__)
-
-
-def create_database():
-    connection = sqlite3.connect('/app/database/product_last_my_first.db')
-    cur = connection.cursor()
-    cur.execute('''CREATE TABLE IF NOT EXISTS product (s_query TEXT, title TEXT, price TEXT, img TEXT)''')
-    cur.execute('''CREATE TABLE IF NOT EXISTS search_history (search_query TEXT, products TEXT)''')
-    connection.commit()
-    connection.close()
-
-
-def insert_into_database(data):
-    connection = sqlite3.connect('/app/database/product_last_my_first.db')
-    c = connection.cursor()
-    c.executemany('INSERT INTO product VALUES (?, ?, ?, ?)', data)
-    connection.commit()
-    connection.close()
-
-
-def insert_search_query(search_query, products):
-    connection = sqlite3.connect('/app/database/product_last_my_first.db')
-    c = connection.cursor()
-    c.execute('INSERT INTO search_history VALUES (?, ?)', (search_query, products))
-    connection.commit()
-    connection.close()
-
-
-def get_products_by_query(search_query, sort=None):
-    connection = sqlite3.connect('/app/database/product_last_my_first.db')
-    connection.row_factory = sqlite3.Row
-
-    query = """SELECT * FROM product WHERE s_query = ? {}
-    """.format("ORDER BY CAST(REPLACE(price, ' ₽', '') AS REAL) ASC" if sort=='asc' else "ORDER BY CAST(REPLACE(price, ' ₽', '') AS REAL) DESC" if sort=='desc' else "")
-    
-    cursor = connection.execute(query, (search_query,))
-    products = cursor.fetchall()
-    connection.close()
-    return products
-
-
-def get_product_by_query(search_query, all_goods, found_goods):
-    for i in found_goods:
-        image = i.find('div', {"class": 'grid-product__image-wrap'})
-        img = image.find('img').get('src')
-        title = i.find('div', {"class": 'grid-product__title-inner'}).text.strip()
-        price = i.find('div', {"class": "grid-product__price-value ec-price-item"}).text.replace("\xa0", '')
-        all_goods.append((search_query, title, price, img))
-    return all_goods
-
-
-def parse_website(search_query):
-    all_goods = []
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(options=chrome_options)
-    driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}')
-    driver.implicitly_wait(10)
-    html = driver.execute_script("return document.body.innerHTML")
-    driver.close()
-    bsObj = BeautifulSoup(html, 'html.parser')
-    found_goods = bsObj.find_all('div', {'class': "grid-product__wrap-inner"})
-    number = int(bsObj.find('div', {"class": "ec-breadcrumbs"}).text.replace("Магазин/Поиск: нашлось ", ''))
-    print(number)
-
-    if number > 60 and number < 120:
-        for i in range(0, 61, 60):
-            driver = webdriver.Chrome(options=chrome_options)
-            driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}&offset={i}')
-            driver.implicitly_wait(10)
-            html = driver.execute_script("return document.body.innerHTML")
-            driver.close()
-            bsObj = BeautifulSoup(html, 'html.parser')
-            found_goods = bsObj.find_all('div', {'class': "grid-product__wrap-inner"})
-            all_goods = get_product_by_query(search_query, all_goods, found_goods)
-
-    elif number > 120:
-        for i in range(0, 121, 60):
-            driver = webdriver.Chrome(options=chrome_options)
-            driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}&offset={i}')
-            driver.implicitly_wait(10)
-            html = driver.execute_script("return document.body.innerHTML")
-            driver.close()
-            bsObj = BeautifulSoup(html, 'html.parser')
-            found_goods = bsObj.find_all('div', {'class': "grid-product__wrap-inner"})
-            all_goods = get_product_by_query(search_query, all_goods, found_goods)
-
-    else:
-        driver = webdriver.Chrome(options=chrome_options)
-        driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}')
-        driver.implicitly_wait(10)
-        html = driver.execute_script("return document.body.innerHTML")
-        driver.close()
-        bsObj = BeautifulSoup(html, 'html.parser')
-        found_goods = bsObj.find_all('div', {'class': "grid-product__wrap-inner"})
-        all_goods = get_product_by_query(search_query, all_goods, found_goods)
-    
-    return all_goods
 
 
 @app.route('/', methods=['GET'])
@@ -150,3 +49,4 @@ def search_products():
 if __name__ == '__main__':
     create_database()
     app.run(host="0.0.0.0", debug=True)
+    
