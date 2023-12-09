@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 
 @app.route('/', methods=['GET'])
-def index():
+def start():
     conn = sqlite3.connect('/app/database/product_last_my_first.db')
     conn.row_factory = sqlite3.Row
     cursor = conn.execute('SELECT DISTINCT search_query FROM search_history')
