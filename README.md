@@ -10,7 +10,7 @@ git clone https://github.com/elviiron/zielinski_p.git
 
 cd zielinski_p
 
-./build.sh
+sh ./build.sh
 
 # 📍 Using our website
 
