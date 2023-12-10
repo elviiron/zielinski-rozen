@@ -30,16 +30,8 @@ header a{
     margin-top: -30px;
     margin-left: -10px;
 }
-svg {
-    width: 24;
-    height: 24;
-    fill: currentcolor;
-}
 
-.menu li a{
-    text-decoration: none;
-    font-size: .870rem;
-}
+
 
 .give {
     background-color: #2a4c39;
@@ -75,6 +67,7 @@ ul {
     list-style-type: none;
     display: flex;
     flex-wrap: wrap;
+    margin:20px auto;
 }
 
 * {box-sizing: border-box;}
