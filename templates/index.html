@@ -48,7 +48,7 @@
         <div class="picture">
             <ul>
                 {% for item in products %}
-                    <li><img src="{{ item['img'] }}" ><p class="text">{{ item['title'] }}<p class="q"> {{ item['price'] }}</p> <br></p></li>
+                    <li><img src="{{ item[3] }}" ><p class="text">{{ item[1] }}<p class="q"> {{ item[2] }}</p> <br></p></li>
                     <br><br>
                 {% endfor %}
             </ul>
