@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import sqlite3
 from database import create_database, insert_into_database, insert_search_query, get_products_by_query
 from parser import parse_website
+import config
 
 
 app = Flask(__name__)
@@ -9,7 +10,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def start():
-    conn = sqlite3.connect('/app/database/product_last_my_first.db')
+    conn = sqlite3.connect(config.database_name)
     conn.row_factory = sqlite3.Row
     cursor = conn.execute('SELECT DISTINCT search_query FROM search_history')
     search_history = cursor.fetchall()
@@ -25,7 +26,7 @@ def search_products():
     
     if search_query:
         try:
-            conn = sqlite3.connect('/app/database/product_last_my_first.db')
+            conn = sqlite3.connect(config.database_name)
             conn.row_factory = sqlite3.Row
             cursor = conn.execute('SELECT products FROM search_history WHERE search_query = ?', (search_query,))
             products = cursor.fetchone()
@@ -33,12 +34,18 @@ def search_products():
 
             if products:
                 product_list = products['products'].split(',')
-                return render_template('index.html', products=get_products_by_query(search_query, sort), search_query=search_query, product_list= product_list)
+                return render_template('index.html',
+                                       products=get_products_by_query(search_query, sort),
+                                     search_query=search_query, product_list=product_list)
+                
             else:
                 all_goods = parse_website(search_query)
                 insert_into_database(all_goods[1:])
                 insert_search_query(search_query, ','.join([item[1] for item in all_goods[1:]]))
-                return render_template('index.html', products=all_goods, search_query=search_query, product_list=[item[1] for item in all_goods[1:]], sort=sort)
+                product_list=[[item[1] for item in all_goods[1:]]]
+                return render_template('index.html', 
+                                       products=get_products_by_query(search_query, sort),
+                                       search_query=search_query, product_list=product_list)
         
         except Exception as excep:
             print('Error:', excep)
