@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.wait import WebDriverWait 
+from selenium.webdriver.common.by import By 
 
 
 def get_product(search_query, all_goods, found_goods):
@@ -22,7 +24,12 @@ def parse_website(search_query):
     chrome_options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}')
-    driver.implicitly_wait(10)
+    
+    while True:
+        element = WebDriverWait(driver, 10).until(lambda x: x.find_element(By.CLASS_NAME, "ec-breadcrumbs"))
+        if element.text != 'Магазин/Поиск':
+            break 
+
     html = driver.execute_script("return document.body.innerHTML")
     driver.close()
     bsObj = BeautifulSoup(html, 'html.parser')
@@ -31,35 +38,24 @@ def parse_website(search_query):
     print(number)
 
     if number > 60 and number < 120:
-        for i in range(0, 61, 60):
-            driver = webdriver.Chrome(options=chrome_options)
-            driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}&offset={i}')
-            driver.implicitly_wait(10)
-            html = driver.execute_script("return document.body.innerHTML")
-            driver.close()
-            bsObj = BeautifulSoup(html, 'html.parser')
-            found_goods = bsObj.find_all('div', {'class': "grid-product__wrap-inner"})
-            all_goods = get_product(search_query, all_goods, found_goods)
-
+        limit = 61
     elif number > 120:
-        for i in range(0, 121, 60):
-            driver = webdriver.Chrome(options=chrome_options)
-            driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}&offset={i}')
-            driver.implicitly_wait(10)
-            html = driver.execute_script("return document.body.innerHTML")
-            driver.close()
-            bsObj = BeautifulSoup(html, 'html.parser')
-            found_goods = bsObj.find_all('div', {'class': "grid-product__wrap-inner"})
-            all_goods = get_product(search_query, all_goods, found_goods)
-
+        limit = 121
     else:
+        limit = 1
+
+    for i in range(0, limit, 60):
         driver = webdriver.Chrome(options=chrome_options)
-        driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}')
-        driver.implicitly_wait(10)
+        driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}&offset={i}')
+        while True:
+            element = WebDriverWait(driver, 10).until(lambda x: x.find_element(By.CLASS_NAME, "ec-breadcrumbs"))
+            if element.text != 'Магазин/Поиск':
+                break 
         html = driver.execute_script("return document.body.innerHTML")
         driver.close()
         bsObj = BeautifulSoup(html, 'html.parser')
         found_goods = bsObj.find_all('div', {'class': "grid-product__wrap-inner"})
         all_goods = get_product(search_query, all_goods, found_goods)
+
     
     return all_goods
