@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/style.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Open+Sans&display=swap" rel="stylesheet">
-    <style type="text/css" data-ymaps="css-modules">.ymaps-2-1-79-pictogramCircleIconContent{display: block; background-size: contain; width: 22px; height: 22px; background-repeat: no-repeat; position: absolute; top: -11px; left: -11px;}
-    </style>
     <title>Product Search</title>
 </head>
 <body>
@@ -29,10 +27,8 @@
     <div class="first">
         <h1>Список товаров</h1>
         <form action="http://127.0.0.1:5000/search" method="get">
-        
                <input type="text" id="searchInput" name="q" placeholder="Искать здесь...">
                <div class="op"><button type="submit"></button></div>
-           
         </form> 
         <br>
             <form action="http://127.0.0.1:5000/search" method="get">
@@ -43,6 +39,21 @@
                 <input type="hidden" name="q" value="{{ request.args.get('q') }}">
                 <button type="submit" name="sort" value="desc" id="sort-btn"><p style="width:60px; height:60px; font-size:40px;color:grey;margin-top: -10px;margin-left: -580px;">&#8673;</p></button>
             </form>
+            <div class="dropdown">
+                <button class="dropbtn">Состав</button>
+                <div class="dropdown-content">
+                    <li><a href="/search?q={{ request.args.get('q') }}&menu_item=Апельсин">Апельсин</a></li>
+                    <li><a href="/search?q={{ request.args.get('q') }}&menu_item=Амбра">Амбра</a></li>
+                    <li><a href="/search?q={{ request.args.get('q') }}&menu_item=Бергамот">Бергамот</a></li>
+                    <li><a href="/search?q={{ request.args.get('q') }}&menu_item=Ветивер">Ветивер</a></li>
+                    <li><a href="/search?q={{ request.args.get('q') }}&menu_item=Грейпфрут">Грейпфрут</a></li>
+                    <li><a href="/search?q={{ request.args.get('q') }}&menu_item=Жасмин">Жасмин</a></li>
+                    <li><a href="/search?q={{ request.args.get('q') }}&menu_item=Лемонграсс">Лемонграсс</a></li>
+                    <li><a href="/search?q={{ request.args.get('q') }}&menu_item=Мускус ">Мускус </a></li>
+                    <li><a href="/search?q={{ request.args.get('q') }}&menu_item=Нероли">Нероли</a></li>
+                    <li><a href="/search?q={{ request.args.get('q') }}&menu_item=Сандал">Сандал</a></li>
+                </div>
+            </div>
         </div>
         <br>
         <div class="picture">
@@ -53,6 +64,5 @@
                 {% endfor %}
             </ul>
         </div>
-
 </body>
 </html>
