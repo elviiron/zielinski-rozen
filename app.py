@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 import sqlite3
-from database import create_database, insert_into_database, insert_search_query, get_products_by_query
+from database import create_database, insert_into_database, insert_search_query, get_products_by_query, get_products_consist
 from parser import parse_website
 import config
 
@@ -23,6 +23,7 @@ def start():
 def search_products():
     search_query = request.args.get('q')
     sort = request.args.get('sort')
+    consist = request.args.get('consist')
     
     if search_query:
         try:
@@ -31,10 +32,16 @@ def search_products():
             cursor = conn.execute('SELECT products FROM search_history WHERE search_query = ?', (search_query,))
             products = cursor.fetchone()
             conn.close()
+            
 
             if products:
                 product_list = products['products'].split(',')
-                return render_template('index.html',
+                if consist:
+                    products_consist = get_products_consist(search_query, consist)
+                    return render_template('index.html', products=products_consist, search_query=search_query)
+                
+                else:
+                    return render_template('index.html',
                                        products=get_products_by_query(search_query, sort),
                                      search_query=search_query, product_list=product_list)
                 
@@ -56,4 +63,3 @@ def search_products():
 if __name__ == '__main__':
     create_database()
     app.run(host="0.0.0.0", debug=True)
-    
