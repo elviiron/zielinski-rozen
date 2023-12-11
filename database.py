@@ -36,3 +36,12 @@ def get_products_by_query(search_query, sort=None):
     products = cursor.fetchall()
     connection.close()
     return products
+
+def get_products_consist(search_query, consist):
+    connection = sqlite3.connect(config.database_name)
+    connection.row_factory = sqlite3.Row
+    query = """SELECT * FROM product WHERE s_query = ? AND title LIKE ?"""
+    cursor = connection.execute(query, (search_query, '%' +  consist + '%',))
+    products = cursor.fetchall()
+    connection.close()
+    return products
