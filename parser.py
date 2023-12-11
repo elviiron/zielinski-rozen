@@ -37,14 +37,8 @@ def parse_website(search_query):
     number = int(bsObj.find('div', {"class": "ec-breadcrumbs"}).text.replace("Магазин/Поиск: нашлось ", ''))
     print(number)
 
-    if number > 60 and number < 120:
-        limit = 61
-    elif number > 120:
-        limit = 121
-    else:
-        limit = 1
 
-    for i in range(0, limit, 60):
+    for i in range(0, number, 60):
         driver = webdriver.Chrome(options=chrome_options)
         driver.get(f'https://zielinskiandrozen.ru/magazin/search?keyword={search_query}&offset={i}')
         while True:
