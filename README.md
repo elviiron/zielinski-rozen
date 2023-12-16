@@ -1,18 +1,18 @@
 # SCRAPING
 
-# 📍 About
+#  About
 
 Scraping site https://zielinskiandrozen.ru/
 
-# 📍 Running the project
+#  Running the project
 
 git clone https://github.com/elviiron/zielinski_p.git
 
-cd zielinski_p
+cd zielinski-rozen
 
 sh ./build.sh
 
-# 📍 Using the project
+#  Using the project
 
 The website works at the URL http://127.0.0.1:5000/
 
